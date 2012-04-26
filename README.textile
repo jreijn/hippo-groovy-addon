@@ -1,0 +1,22 @@
+h1. This is the Hippo CMS Groovy addon project
+
+This project adds Groovy support to Hippo CMS (http://www.onehippo.org) projects.
+
+h2. What does it do?
+
+Right now there is one module in place which gives you a powerfull scripting plugin that allows you to run Groovy
+scripts from the CMS interface.
+
+h2. Installing the plugin
+
+Right now you can add this plugin by just adding the following dependency to your project.
+
+<pre>
+<code>
+<dependency>
+  <groupId>hippo-groovy-addon</groupId>
+  <artifactId>hippo-groovy-addon-cms</artifactId>
+  <version>0.1-SNAPSHOT</version>
+</dependency>
+</code>
+</pre>
