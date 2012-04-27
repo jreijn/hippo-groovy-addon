@@ -23,6 +23,7 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.model.IModel;
 
 /**
+ * Component that displays a CodeMirror panel which gives a nice syntax highlighting for Groovy.
  * @author Jeroen Reijn
  */
 public class CodeMirrorEditor extends TextArea {
