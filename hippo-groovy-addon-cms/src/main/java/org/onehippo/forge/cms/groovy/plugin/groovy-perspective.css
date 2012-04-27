@@ -239,13 +239,13 @@ div.hippo-controlpanel-actions-top {
 
 .groovy-shell-feedback {
     position: relative;
-    width:720px;
     height:200px;
-    border:1px #69889c solid;
+    border:1px #EEEEEE solid;
     font-size: 1.2em;
     display: block;
     overflow-x: auto;
     overflow-y: auto;
+    padding: 4px;
 }
 
 .groovy-shell-form {
@@ -254,7 +254,7 @@ div.hippo-controlpanel-actions-top {
 }
 
 .shell-header {
-    font-size: 2.5em;
+    font-size: 2.0em;
     font-weight: bold;
     color: #2B3D4C;
 }

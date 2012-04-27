@@ -15,11 +15,13 @@
  */
 package scripts
 
+import javax.jcr.Node;
+
 /**
  * Simple script for getting and printing the path of the content node;
  * @author Jeroen Reijn
  */
-rootNode = session.getRootNode();
+rootNode = (Node)session.getRootNode();
 contentNode = rootNode.getNode("content");
 
 println(contentNode.getPath());

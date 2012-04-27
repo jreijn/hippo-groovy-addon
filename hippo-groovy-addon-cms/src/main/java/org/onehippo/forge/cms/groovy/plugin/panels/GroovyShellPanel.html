@@ -26,9 +26,11 @@
                 <textarea wicket:id="script"></textarea>
             </fieldset>
             <br/>
-            <input type="submit" value="Execute" wicket:id="ajax-button"/>
+            <input type="submit" value="Execute script" wicket:id="ajax-button"/>
             <br/>
-            <pre wicket:id="output" class="groovy-shell-feedback">[[ feedback ]]</pre>
+            <div class="groovy-shell-feedback">
+                <pre wicket:id="output">[[ feedback ]]</pre>
+            </div>
         </form>
     </div>
 </wicket:extend>

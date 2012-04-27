@@ -18,7 +18,7 @@ package scripts
 import org.hippoecm.repository.api.HippoNode
 
 /**
- * Simple script for recursively iterating and printing the path an item in the content tree;
+ * Simple script for recursively iterating and printing the path of an item in the content tree;
  * @author Jeroen Reijn
  */
 
@@ -35,6 +35,11 @@ def iterateNodeTree(node) {
   }
 }
 
+/**
+ * Checks the Node and figures out if it's a virtual Hippo node.
+ * @param node the {@link Node} that needs to be checked
+ * @return <code>true</code> if the Node if virtual, <code>false</code> otherwise.
+ */
 def isVirtualNode(node) {
   return (node instanceof HippoNode ? !node.isSame(((HippoNode)node).getCanonicalNode()) : false);
 }
