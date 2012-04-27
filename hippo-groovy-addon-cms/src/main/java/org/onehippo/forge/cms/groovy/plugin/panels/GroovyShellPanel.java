@@ -34,7 +34,6 @@ import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.hippoecm.frontend.plugins.standards.panelperspective.breadcrumb.PanelPluginBreadCrumbPanel;
 import org.hippoecm.frontend.session.UserSession;
 import org.onehippo.forge.cms.groovy.plugin.GroovyShellOutput;
-import org.onehippo.forge.cms.groovy.plugin.ace.AceCodeEditor;
 import org.onehippo.forge.cms.groovy.plugin.codemirror.CodeMirrorEditor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
