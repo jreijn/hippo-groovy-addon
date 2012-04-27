@@ -5,7 +5,7 @@ This project adds Groovy support to Hippo CMS (http://www.onehippo.org) projects
 h2. What does it do?
 
 Right now there is one module in place which gives you a powerfull scripting plugin that allows you to run Groovy
-scripts from the CMS interface.
+scripts from within the CMS interface.
 
 h2. Installing the plugin
 
