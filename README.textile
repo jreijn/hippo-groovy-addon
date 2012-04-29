@@ -14,7 +14,7 @@ Right now you can add this plugin by just adding the following dependency to you
 <pre>
 <code>
 <dependency>
-  <groupId>hippo-groovy-addon</groupId>
+  <groupId>org.onehippo.forge.groovy</groupId>
   <artifactId>hippo-groovy-addon-cms</artifactId>
   <version>0.1-SNAPSHOT</version>
 </dependency>
