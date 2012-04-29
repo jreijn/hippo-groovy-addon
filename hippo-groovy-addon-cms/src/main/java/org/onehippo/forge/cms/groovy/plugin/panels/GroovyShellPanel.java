@@ -48,13 +48,11 @@ import groovy.lang.Script;
  */
 public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
 
-    private final static Logger logger = LoggerFactory.getLogger(GroovyShellPanel.class);
-
     private final Form form;
     private final TextArea script;
     private GroovyShellOutput output = new GroovyShellOutput();
 
-    public GroovyShellPanel(final String componentId, final IPluginContext pluginContext, final IPluginConfig pluginConfig, final IBreadCrumbModel breadCrumbModel) {
+    public GroovyShellPanel(final String componentId, final IBreadCrumbModel breadCrumbModel) {
         super(componentId, breadCrumbModel);
 
         final CompoundPropertyModel<GroovyShellOutput> compoundPropertyModel = new CompoundPropertyModel<GroovyShellOutput>(output);
@@ -69,15 +67,15 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 GroovyShell shell = new GroovyShell();
-                Script script = shell.parse(GroovyShellPanel.this.getScript());
+                Script groovyScript = shell.parse(GroovyShellPanel.this.getScript());
                 if (Session.exists()) {
                     UserSession userSession = (UserSession) Session.get();
-                    script.setProperty("session", userSession.getJcrSession());
+                    groovyScript.setProperty("session", userSession.getJcrSession());
                     GroovyShellOutput shellOutput = compoundPropertyModel.getObject();
-                    script.setProperty("out", shellOutput);
-                    script.setProperty("err", shellOutput);
+                    groovyScript.setProperty("out", shellOutput);
+                    groovyScript.setProperty("err", shellOutput);
                 }
-                script.run();
+                groovyScript.run();
                 target.addComponent(shellFeedback);
             }
 

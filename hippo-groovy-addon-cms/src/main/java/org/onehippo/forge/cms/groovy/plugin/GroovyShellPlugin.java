@@ -50,6 +50,6 @@ public class GroovyShellPlugin extends GroovyPanelPlugin {
 
     @Override
     public PanelPluginBreadCrumbPanel create(final String componentId, final IBreadCrumbModel breadCrumbModel) {
-        return new GroovyShellPanel(componentId, getPluginContext(), getPluginConfig(), breadCrumbModel);
+        return new GroovyShellPanel(componentId, breadCrumbModel);
     }
 }
