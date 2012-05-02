@@ -18,6 +18,7 @@ package org.onehippo.forge.cms.groovy.plugin;
 import groovy.lang.GroovySystem;
 
 /**
+ * Wrapper used for the output of the groovy shell output.
  * @author Jeroen Reijn
  */
 public class GroovyShellOutput {
