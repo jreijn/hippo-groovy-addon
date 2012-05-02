@@ -25,11 +25,12 @@ import org.hippoecm.frontend.plugins.standards.panelperspective.breadcrumb.Panel
 import org.onehippo.forge.cms.groovy.plugin.panels.GroovyShellPanel;
 
 /**
+ * Groovy shell panel plugin
  * @author Jeroen Reijn
  */
-public class GroovyShellPlugin extends GroovyPanelPlugin {
+public class GroovyShellPanelPlugin extends GroovyPanelPlugin {
 
-    public GroovyShellPlugin(IPluginContext context, IPluginConfig config) {
+    public GroovyShellPanelPlugin(IPluginContext context, IPluginConfig config) {
         super(context, config);
     }
 

@@ -15,7 +15,6 @@
  */
 package org.onehippo.forge.cms.groovy.plugin;
 
-
 import org.apache.wicket.ResourceReference;
 import org.apache.wicket.markup.html.CSSPackageResource;
 import org.hippoecm.frontend.plugin.IPluginContext;
@@ -23,6 +22,10 @@ import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.hippoecm.frontend.plugins.standards.panelperspective.PanelPluginPerspective;
 import org.hippoecm.frontend.service.IconSize;
 
+/**
+ * Perspective that will show a set of Panels exposing functionality related to the groovy project.
+ * @author Jeroen Reijn
+ */
 public class GroovyPerspective extends PanelPluginPerspective {
 
     public GroovyPerspective(IPluginContext context, IPluginConfig config) {
