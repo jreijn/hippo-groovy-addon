@@ -29,14 +29,10 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.util.time.Duration;
-import org.hippoecm.frontend.plugin.IPluginContext;
-import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.hippoecm.frontend.plugins.standards.panelperspective.breadcrumb.PanelPluginBreadCrumbPanel;
 import org.hippoecm.frontend.session.UserSession;
 import org.onehippo.forge.cms.groovy.plugin.GroovyShellOutput;
 import org.onehippo.forge.cms.groovy.plugin.codemirror.CodeMirrorEditor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -73,9 +69,12 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
                     groovyScript.setProperty("session", userSession.getJcrSession());
                     GroovyShellOutput shellOutput = compoundPropertyModel.getObject();
                     groovyScript.setProperty("out", shellOutput);
-                    groovyScript.setProperty("err", shellOutput);
                 }
-                groovyScript.run();
+                try {
+                    groovyScript.run();
+                } catch (Exception e) {
+                    output.println(e);
+                }
                 target.addComponent(shellFeedback);
             }
 

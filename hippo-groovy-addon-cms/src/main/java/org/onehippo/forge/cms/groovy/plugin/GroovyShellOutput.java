@@ -24,10 +24,10 @@ public class GroovyShellOutput {
 
     private static final String GROOVY_VERSION = GroovySystem.getVersion();
 
-    StringBuffer output = new StringBuffer();
+    private StringBuffer output;
 
     public GroovyShellOutput() {
-
+        output = new StringBuffer();
     }
 
     public void printVersion() {
