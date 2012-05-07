@@ -15,6 +15,9 @@
  */
 package org.onehippo.forge.cms.groovy.plugin.panels;
 
+import java.io.IOException;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Component;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -24,15 +27,20 @@ import org.apache.wicket.extensions.breadcrumb.IBreadCrumbModel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.form.upload.FileUpload;
+import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.util.io.IOUtils;
 import org.apache.wicket.util.time.Duration;
 import org.hippoecm.frontend.plugins.standards.panelperspective.breadcrumb.PanelPluginBreadCrumbPanel;
 import org.hippoecm.frontend.session.UserSession;
 import org.onehippo.forge.cms.groovy.plugin.GroovyShellOutput;
 import org.onehippo.forge.cms.groovy.plugin.codemirror.CodeMirrorEditor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
@@ -44,9 +52,13 @@ import groovy.lang.Script;
  */
 public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
 
+    private final static Logger logger = LoggerFactory.getLogger(GroovyShellPanel.class);
+
     private final Form form;
-    private final TextArea script;
+    private final TextArea textArea;
+    private final FileUploadField fileUpload;
     private GroovyShellOutput output = new GroovyShellOutput();
+    private GroovyShell shell = new GroovyShell();
 
     public GroovyShellPanel(final String componentId, final IBreadCrumbModel breadCrumbModel) {
         super(componentId, breadCrumbModel);
@@ -58,12 +70,34 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
 
         form = new Form("shellform");
 
+        form.add(new AjaxButton("ajax-upload", form) {
+
+            @Override
+            protected void onSubmit(final AjaxRequestTarget target, final Form<?> form) {
+                final FileUpload uploadedFile = fileUpload.getFileUpload();
+                if (uploadedFile != null) {
+                    try {
+                        String uploadedScript = IOUtils.toString(uploadedFile.getInputStream());
+                        if(!StringUtils.isEmpty(uploadedScript)) {
+                            GroovyShellPanel.this.setScript(uploadedScript);
+                        }
+                    } catch (IOException e) {
+                        logger.warn("An exception occurred while trying to parse the uploaded script: {}", e);
+                    }
+                    target.addComponent(form);
+                }
+            }
+        });
+
         // add a button that can be used to submit the form via ajax
         form.add(new AjaxButton("ajax-button", form) {
+
             @Override
-            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                GroovyShell shell = new GroovyShell();
-                Script groovyScript = shell.parse(GroovyShellPanel.this.getScript());
+            protected void onSubmit(AjaxRequestTarget target, Form<?> currentForm) {
+
+                String script = GroovyShellPanel.this.getScript();
+                Script groovyScript = shell.parse(script);
+
                 if (Session.exists()) {
                     UserSession userSession = (UserSession) Session.get();
                     groovyScript.setProperty("session", userSession.getJcrSession());
@@ -73,19 +107,24 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
                 try {
                     groovyScript.run();
                 } catch (Exception e) {
+                    // catch the exception and make it visible for the end user instead of directing it to the log.
                     output.println(e);
                 }
                 target.addComponent(shellFeedback);
             }
-
         });
+
+        form.setMultiPart(true);
+        fileUpload = new FileUploadField("fileUpload");
+        form.add(fileUpload);
 
         form.setOutputMarkupId(true);
         output.printVersion();
-        script = new CodeMirrorEditor("script", new Model(""));
+        textArea = new CodeMirrorEditor("script", new Model(""));
+        textArea.setOutputMarkupId(true);
         shellFeedback.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(5)));
         form.add(shellFeedback);
-        form.add(script);
+        form.add(textArea);
         add(form);
     }
 
@@ -94,6 +133,10 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
     }
 
     public String getScript() {
-        return (String) script.getModelObject();
+        return (String) textArea.getModelObject();
+    }
+
+    public void setScript(String newScript) {
+        textArea.setModelObject(newScript);
     }
 }

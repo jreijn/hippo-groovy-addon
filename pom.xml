@@ -113,6 +113,21 @@
     </plugins>
   </build>
 
+  <developers>
+    <developer>
+      <id>jreijn</id>
+      <name>Jeroen Reijn</name>
+      <organization>Hippo</organization>
+      <organizationUrl>http://www.onehippo.com</organizationUrl>
+      <timezone>+1</timezone>
+      <url>http://blog.jeroenreijn.com/</url>
+      <email>j.reijn@onehippo.com</email>
+      <roles>
+        <role>Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
   <repositories>
     <repository>
       <id>hippo</id>
