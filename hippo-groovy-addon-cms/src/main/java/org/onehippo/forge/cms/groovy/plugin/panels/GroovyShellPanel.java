@@ -54,7 +54,6 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
 
     private final static Logger logger = LoggerFactory.getLogger(GroovyShellPanel.class);
 
-    private final Form form;
     private final TextArea textArea;
     private final FileUploadField fileUpload;
     private GroovyShellOutput output = new GroovyShellOutput();
@@ -68,7 +67,7 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
         final Label shellFeedback = new Label("output", compoundPropertyModel);
         shellFeedback.setOutputMarkupId(true);
 
-        form = new Form("shellform");
+        final Form form = new Form("shellform");
 
         form.add(new AjaxButton("ajax-upload", form) {
 
@@ -78,7 +77,7 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
                 if (uploadedFile != null) {
                     try {
                         String uploadedScript = IOUtils.toString(uploadedFile.getInputStream());
-                        if(!StringUtils.isEmpty(uploadedScript)) {
+                        if (!StringUtils.isEmpty(uploadedScript)) {
                             GroovyShellPanel.this.setScript(uploadedScript);
                         }
                     } catch (IOException e) {
