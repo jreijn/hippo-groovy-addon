@@ -76,7 +76,7 @@ public class GroovyScriptManagementPanel extends PanelPluginBreadCrumbPanel {
 
         columns.add(new PropertyColumn(new Model<String>("Name"), "name","name"));
         columns.add(new PropertyColumn(new Model<String>("Path"), "path"));
-        columns.add(new AbstractColumn(new Model("Delete")) {
+        columns.add(new AbstractColumn(new Model<String>("Actions")) {
             public void populateItem(Item cellItem,
                                      String componentId, IModel rowModel) {
                 GroovyScript groovyScript = ((GroovyScript)
