@@ -30,9 +30,7 @@ import org.hippoecm.repository.api.NodeNameCodec;
  */
 public class GroovyScript implements Comparable, IClusterable{
 
-    private final static String MODULE_CONFIG_LOCATION = "/hippo:modules/groovy/hippo:moduleconfig/";
     private final static String STORAGE_LOCATION = "content/scripts/groovy/";
-    private final static String QUERY_SCRIPT_EXISTS = STORAGE_LOCATION + "//element(*)[fn:name()='{}']";
 
     private String name;
     private String script;
@@ -46,7 +44,7 @@ public class GroovyScript implements Comparable, IClusterable{
     public GroovyScript(Node node) throws RepositoryException {
         this.path = node.getPath().substring(1);
         this.name = NodeNameCodec.decode(node.getName());
-        this.script= node.getProperty("script").getString();
+        this.script = node.getProperty("script").getString();
     }
 
     public String getPath() {
@@ -95,6 +93,10 @@ public class GroovyScript implements Comparable, IClusterable{
         node.setProperty("script",getScript());
         // save parent when adding a node
         node.getParent().getSession().save();
+    }
+
+    public void delete() throws RepositoryException {
+        node.remove();
     }
 
 }

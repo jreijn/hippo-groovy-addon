@@ -22,10 +22,10 @@ import javax.jcr.query.Query
  * @author Jeroen Reijn
  */
 
-queryManager = session.getWorkspace().getQueryManager();
+queryManager = session.workspace.queryManager;
 query = queryManager.createQuery("//element(*,hippostdpubwf:document)[jcr:contains(.,'green')]", Query.XPATH);
 queryResult = query.execute();
 
-for(resultNode in queryResult.getNodes()) {
-  println(resultNode.getPath());
+for(resultNode in queryResult.nodes) {
+  println resultNode.path;
 }

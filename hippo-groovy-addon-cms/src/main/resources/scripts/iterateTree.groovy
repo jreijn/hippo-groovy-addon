@@ -23,12 +23,12 @@ import org.hippoecm.repository.api.HippoNode
  */
 
 def printNode(node) {
-  println(node.getPath());
+  println node.path
 };
 
 def iterateNodeTree(node) {
   printNode(node)
-  for(childNode in node.getNodes()) {
+  for(childNode in node.nodes) {
     if(!isVirtualNode(childNode)){
       iterateNodeTree(childNode)
     }
@@ -44,7 +44,7 @@ def isVirtualNode(node) {
   return (node instanceof HippoNode ? !node.isSame(((HippoNode)node).getCanonicalNode()) : false);
 }
 
-rootNode = session.getRootNode();
+rootNode = session.rootNode;
 contentNode = rootNode.getNode("content");
 
 iterateNodeTree(contentNode);

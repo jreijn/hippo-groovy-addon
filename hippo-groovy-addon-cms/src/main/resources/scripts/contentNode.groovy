@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 package scripts
-
+//explicit import
 import javax.jcr.Node;
 
 /**
  * Simple script for getting and printing the path of the content node;
  * @author Jeroen Reijn
  */
-rootNode = (Node)session.getRootNode();
+rootNode = session.rootNode;
 contentNode = rootNode.getNode("content");
 
-println(contentNode.getPath());
+println contentNode.path;

@@ -137,13 +137,7 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
             }
         });
 
-        scriptDropDownChoice.setOutputMarkupId(true);
-        form.add(scriptDropDownChoice);
-        if(groovyScripts.size() == 0) {
-            scriptDropDownChoice.setVisible(false);
-        }
-
-        form.add(new AjaxButton("load-script", form) {
+        AjaxButton loadScript = new AjaxButton("load-script", form) {
 
             @Override
             protected void onSubmit(final AjaxRequestTarget ajaxRequestTarget, final Form<?> form) {
@@ -153,7 +147,15 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
                 }
                 ajaxRequestTarget.addComponent(form);
             }
-        });
+        };
+        form.add(loadScript);
+
+        scriptDropDownChoice.setOutputMarkupId(true);
+        form.add(scriptDropDownChoice);
+        if(groovyScripts.size() == 0) {
+            scriptDropDownChoice.setVisible(false);
+            loadScript.setVisible(false);
+        }
 
         // add a button that can be used to submit the form via ajax
         form.add(new AjaxButton("ajax-button", form) {
