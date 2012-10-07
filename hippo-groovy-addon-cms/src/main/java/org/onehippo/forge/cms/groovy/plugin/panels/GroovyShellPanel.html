@@ -26,7 +26,7 @@
                 <textarea wicket:id="script"></textarea>
             </fieldset>
             <br/>
-            <div><input wicket:id="fileUpload" type="file"/><input type="submit" value="Upload" wicket:id="ajax-upload"/>&nbsp;<input type="submit" value="Execute script" wicket:id="ajax-button"/></div>
+            <div><select wicket:id="scripts"/>&nbsp;<input type="submit" value="Load script" wicket:id="load-script"/>&nbsp;<input wicket:id="fileUpload" type="file"/><input type="submit" value="Upload" wicket:id="ajax-upload"/>&nbsp;<input type="submit" value="Execute script" wicket:id="ajax-button"/></div>
             <br/>
             <div class="groovy-shell-feedback">
                 <pre wicket:id="output">[[ feedback ]]</pre>

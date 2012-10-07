@@ -16,34 +16,47 @@
 package org.onehippo.forge.cms.groovy.plugin.panels;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.wicket.Component;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.AjaxSelfUpdatingTimerBehavior;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.breadcrumb.IBreadCrumbModel;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 import org.apache.wicket.util.io.IOUtils;
 import org.apache.wicket.util.time.Duration;
+import org.codehaus.groovy.control.CompilerConfiguration;
+import org.codehaus.groovy.control.customizers.SecureASTCustomizer;
 import org.hippoecm.frontend.plugins.standards.panelperspective.breadcrumb.PanelPluginBreadCrumbPanel;
 import org.hippoecm.frontend.session.UserSession;
 import org.onehippo.forge.cms.groovy.plugin.GroovyShellOutput;
 import org.onehippo.forge.cms.groovy.plugin.codemirror.CodeMirrorEditor;
+import org.onehippo.forge.cms.groovy.plugin.domain.GroovyScript;
+import org.onehippo.forge.cms.groovy.plugin.provider.GroovyScriptsDataProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableList;
 
 /**
  * Panel for executing Groovy scripts
@@ -57,15 +70,20 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
     private final TextArea textArea;
     private final FileUploadField fileUpload;
     private GroovyShellOutput output = new GroovyShellOutput();
-    private GroovyShell shell = new GroovyShell();
+    private GroovyShell shell;
+    private GroovyScript selectedScript = null;
 
     public GroovyShellPanel(final String componentId, final IBreadCrumbModel breadCrumbModel) {
         super(componentId, breadCrumbModel);
+
+        shell = getMinimalSecuredGroovyShell();
 
         final CompoundPropertyModel<GroovyShellOutput> compoundPropertyModel = new CompoundPropertyModel<GroovyShellOutput>(output);
 
         final Label shellFeedback = new Label("output", compoundPropertyModel);
         shellFeedback.setOutputMarkupId(true);
+
+        GroovyScriptsDataProvider groovyScriptsDataProvider = new GroovyScriptsDataProvider();
 
         final Form form = new Form("shellform");
 
@@ -87,6 +105,55 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
                 }
             }
         });
+        final List<GroovyScript> groovyScripts = new ArrayList<GroovyScript>();
+        Iterator iterator = groovyScriptsDataProvider.iterator(0, 10);
+        while(iterator.hasNext()) {
+            GroovyScript script = (GroovyScript) iterator.next();
+            groovyScripts.add(script);
+        }
+
+        final DropDownChoice<GroovyScript> scriptDropDownChoice = new DropDownChoice<GroovyScript>("scripts",
+                new PropertyModel<GroovyScript>(this, "selectedScript") , groovyScripts, new IChoiceRenderer() {
+
+            @Override
+            public Object getDisplayValue(final Object object) {
+                GroovyScript script = (GroovyScript) object;
+                return script.getName();
+            }
+
+            @Override
+            public String getIdValue(final Object object, final int i) {
+                GroovyScript script = (GroovyScript) object;
+                return script.getPath();
+            }
+        }) {
+        };
+
+        scriptDropDownChoice.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+            private static final long serialVersionUID = 1L;
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {
+
+            }
+        });
+
+        scriptDropDownChoice.setOutputMarkupId(true);
+        form.add(scriptDropDownChoice);
+        if(groovyScripts.size() == 0) {
+            scriptDropDownChoice.setVisible(false);
+        }
+
+        form.add(new AjaxButton("load-script", form) {
+
+            @Override
+            protected void onSubmit(final AjaxRequestTarget ajaxRequestTarget, final Form<?> form) {
+                GroovyScript groovyScript = scriptDropDownChoice.getModelObject();
+                if(groovyScript != null) {
+                    GroovyShellPanel.this.setScript(groovyScript.getScript());
+                }
+                ajaxRequestTarget.addComponent(form);
+            }
+        });
 
         // add a button that can be used to submit the form via ajax
         form.add(new AjaxButton("ajax-button", form) {
@@ -94,8 +161,8 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> currentForm) {
 
-                String script = GroovyShellPanel.this.getScript();
-                Script groovyScript = shell.parse(script);
+                String scriptAsString = GroovyShellPanel.this.getScript();
+                Script groovyScript = shell.parse(scriptAsString);
 
                 if (Session.exists()) {
                     UserSession userSession = (UserSession) Session.get();
@@ -125,6 +192,18 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
         form.add(shellFeedback);
         form.add(textArea);
         add(form);
+    }
+
+    private GroovyShell getMinimalSecuredGroovyShell() {
+        final SecureASTCustomizer customizer = new SecureASTCustomizer();
+        customizer.setImportsBlacklist(unmodifiableList(asList(
+                "java.lang.System", "groovy.lang.GroovyShell",
+                "groovy.lang.GroovyClassLoader")));
+        customizer.setIndirectImportCheckEnabled(true);
+
+        CompilerConfiguration configuration = new CompilerConfiguration();
+        configuration.addCompilationCustomizers(customizer);
+        return new GroovyShell(configuration);
     }
 
     public IModel<String> getTitle(final Component component) {

@@ -259,7 +259,45 @@ div.hippo-controlpanel-actions-top {
     color: #2B3D4C;
 }
 
+.script-management-header {
+    font-size: 2.0em;
+    font-weight: bold;
+    color: #2B3D4C;
+}
+
+.groovy-shell-form hr {
+    border-style: none;
+}
+
 .shell-rule {
     margin-bottom: 10px;
+    border-bottom: 1px dotted #ddd;
 }
+
+.groovy-table {
+    font-size: 1.5em;
+    width:100%;
+}
+
+.groovy-table thead th {
+    vertical-align: bottom;
+}
+
+.groovy-table th {
+    font-weight: bold;
+}
+
+.groovy-table th, .groovy-table td {
+    padding: 8px;
+    line-height: 20px;
+    text-align: left;
+}
+
+.groovy-table td {
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+}
+
 
