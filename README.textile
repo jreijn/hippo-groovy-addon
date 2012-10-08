@@ -14,10 +14,11 @@ The documentation is available at https://github.com/jreijn/hippo-groovy-addon/w
 
 h2. Installing the plugin
 
-Currently this plugin is not yet located in any public maven repository. Therefor you will need to manually build the
-plugin before it can be used within your project.
+* Download the zip from: https://github.com/jreijn/hippo-groovy-addon/zipball/hippo-groovy-addon-0.1.0
+* Extract the zip and change into the directory
+* $ mvn install
 
-Right now you can add this plugin by just adding the following dependency to your project.
+Once the build is successfull you can add this plugin by just adding the following dependency to your projects CMS module.
 
 <pre>
 <code>
