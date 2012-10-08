@@ -4,7 +4,7 @@
 
   <groupId>org.onehippo.forge.groovy</groupId>
   <artifactId>hippo-groovy-addon</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <inceptionYear>2011</inceptionYear>
