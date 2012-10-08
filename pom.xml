@@ -11,12 +11,34 @@
 
   <inceptionYear>2011</inceptionYear>
 
+  <url>https://github.com/jreijn/hippo-groovy-addon</url>
+  <issueManagement>
+    <url>https://github.com/jreijn/hippo-groovy-addon/issues</url>
+    <system>GitHub Issues</system>
+  </issueManagement>
+
+  <licenses>
+    <license>
+      <name>Apache V2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/jreijn/hippo-groovy-addon</url>
+    <connection>scm:git:git://github.com/jreijn/hippo-groovy-addon.git</connection>
+    <developerConnection>scm:git:git@github.com:jreijn/hippo-groovy-addon.git</developerConnection>
+  </scm>
+
   <properties>
     <groovy.version>1.8.6</groovy.version>
     <hippo.cms.version>2.22.01</hippo.cms.version>
     <hippo.repository.version>2.22.04</hippo.repository.version>
     <junit.version>4.10</junit.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <compiler.version>1.6</compiler.version>
+    <github.downloads.plugin.version>0.6</github.downloads.plugin.version>
   </properties>
 
   <modules>
@@ -61,8 +83,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>${compiler.version}</source>
+          <target>${compiler.version}</target>
         </configuration>
       </plugin>
       <plugin>
