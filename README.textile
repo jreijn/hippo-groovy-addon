@@ -14,6 +14,9 @@ The documentation is available at https://github.com/jreijn/hippo-groovy-addon/w
 
 h2. Installing the plugin
 
+Currently this plugin is not yet located in any public maven repository. Therefor you will need to manually build the
+plugin before it can be used within your project.
+
 Right now you can add this plugin by just adding the following dependency to your project.
 
 <pre>
@@ -21,7 +24,7 @@ Right now you can add this plugin by just adding the following dependency to you
 <dependency>
   <groupId>org.onehippo.forge.groovy</groupId>
   <artifactId>hippo-groovy-addon-cms</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.0</version>
 </dependency>
 </code>
 </pre>
