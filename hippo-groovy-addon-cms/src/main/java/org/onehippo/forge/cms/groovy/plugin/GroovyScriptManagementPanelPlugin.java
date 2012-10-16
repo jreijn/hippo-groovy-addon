@@ -26,7 +26,7 @@ import org.onehippo.forge.cms.groovy.plugin.panels.GroovyScriptManagementPanel;
 import org.onehippo.forge.cms.groovy.plugin.panels.GroovyShellPanel;
 
 /**
- * Groovy shell panel plugin
+ * Groovy shell panel plugin used for displaying the management panel on the perspective overview.
  * @author Jeroen Reijn
  */
 public class GroovyScriptManagementPanelPlugin extends GroovyPanelPlugin {

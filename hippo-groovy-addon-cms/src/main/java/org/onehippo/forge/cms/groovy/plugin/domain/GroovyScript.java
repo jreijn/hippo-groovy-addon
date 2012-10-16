@@ -26,6 +26,7 @@ import org.hippoecm.repository.api.HippoNodeType;
 import org.hippoecm.repository.api.NodeNameCodec;
 
 /**
+ * Simple domain object representing a Groovy script.
  * @author Jeroen Reijn
  */
 public class GroovyScript implements Comparable, IClusterable{

@@ -19,6 +19,9 @@ import org.hippoecm.frontend.plugin.IPluginContext;
 import org.hippoecm.frontend.plugin.config.IPluginConfig;
 import org.hippoecm.frontend.plugins.standards.panelperspective.PanelPlugin;
 
+/**
+ * Abstract panel plugin used for displaying the panels in the perspective overview
+ */
 public abstract class GroovyPanelPlugin extends PanelPlugin {
 
     public static final String GROOVY_PANEL_SERVICE_ID = "groovy.panel";

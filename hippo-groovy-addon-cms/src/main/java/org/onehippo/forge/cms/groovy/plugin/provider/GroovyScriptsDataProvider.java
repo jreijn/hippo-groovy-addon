@@ -28,14 +28,14 @@ import javax.jcr.query.Query;
 import org.apache.wicket.Session;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.hippoecm.frontend.session.UserSession;
-import org.onehippo.forge.cms.groovy.plugin.domain.DetachableGroovyScript;
+import org.onehippo.forge.cms.groovy.plugin.domain.DetachableGroovyScriptModel;
 import org.onehippo.forge.cms.groovy.plugin.domain.GroovyScript;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Data provider that gets all available scripts from the scripts library
  * @author Jeroen Reijn
  */
 public class GroovyScriptsDataProvider extends SortableDataProvider<GroovyScript> {
@@ -64,7 +64,7 @@ public class GroovyScriptsDataProvider extends SortableDataProvider<GroovyScript
 
     @Override
     public IModel<GroovyScript> model(final GroovyScript groovyScript) {
-        return new DetachableGroovyScript(groovyScript);
+        return new DetachableGroovyScriptModel(groovyScript);
     }
 
     /**

@@ -5,6 +5,13 @@
   <groupId>org.onehippo.forge.groovy</groupId>
   <artifactId>hippo-groovy-addon</artifactId>
   <version>0.1.1-SNAPSHOT</version>
+
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+
   <packaging>pom</packaging>
 
   <inceptionYear>2011</inceptionYear>
@@ -17,11 +24,15 @@
 
   <licenses>
     <license>
-      <name>Apache V2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
+
+  <prerequisites>
+    <maven>[3.0.3,)</maven>
+  </prerequisites>
 
   <scm>
     <url>https://github.com/jreijn/hippo-groovy-addon</url>
@@ -38,10 +49,6 @@
     <compiler.version>1.6</compiler.version>
     <github.downloads.plugin.version>0.6</github.downloads.plugin.version>
   </properties>
-
-  <modules>
-    <module>hippo-groovy-addon-cms</module>
-  </modules>
 
   <build>
     <resources>
@@ -79,57 +86,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+        <version>2.5.1</version>
         <configuration>
           <source>${compiler.version}</source>
           <target>${compiler.version}</target>
         </configuration>
       </plugin>
-      <plugin>
-        <inherited>true</inherited>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-site-plugin</artifactId>
-        <version>3.0</version>
-      </plugin>
-      <plugin>
-        <inherited>true</inherited>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.4</version>
-      </plugin>
-      <!--<plugin>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
-        <version>1.9.0</version>
-        <configuration>
-          <strictCheck>true</strictCheck>
-          <header>src/etc/license.txt</header>
-          <excludes>
-            <exclude>target/**</exclude>
-            <exclude>.idea/**</exclude>
-            <exclude>LICENSE.txt</exclude>
-            <exclude>NOTICE.txt</exclude>
-            <exclude>README.textile</exclude>
-            <exclude>src/etc/**</exclude>
-            <exclude>src/main/**/**.js</exclude>
-            <exclude>src/main/**/**.css</exclude>
-            <exclude>src/main/**/**.properties</exclude>
-          </excludes>
-          <properties>
-            <name>${project.name}</name>
-            <year>${project.inceptionYear}</year>
-            <holder>Hippo</holder>
-          </properties>
-          <encoding>UTF-8</encoding>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
@@ -160,5 +122,24 @@
       <url>http://maven.onehippo.com/maven2/</url>
     </repository>
   </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>hippo</id>
+      <name>Hippo maven 2 repository.</name>
+      <url>http://maven.onehippo.com/maven2/</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <layout>default</layout>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <modules>
+    <module>hippo-groovy-addon-cms</module>
+  </modules>
 
 </project>

@@ -18,29 +18,27 @@ package org.onehippo.forge.cms.groovy.plugin.domain;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
-import org.apache.wicket.IClusterable;
 import org.apache.wicket.Session;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.hippoecm.frontend.plugins.cms.admin.domains.Domain;
 import org.hippoecm.frontend.session.UserSession;
-import org.hippoecm.repository.api.NodeNameCodec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Detachable version of a GroovyScript model representing a {@link Node} inside the repository
  * @author Jeroen Reijn
  */
-public class DetachableGroovyScript extends LoadableDetachableModel{
+public class DetachableGroovyScriptModel extends LoadableDetachableModel{
 
-    private final static Logger logger = LoggerFactory.getLogger(DetachableGroovyScript.class);
+    private final static Logger logger = LoggerFactory.getLogger(DetachableGroovyScriptModel.class);
 
     private final String path;
 
-    public DetachableGroovyScript(final GroovyScript script) {
+    public DetachableGroovyScriptModel(final GroovyScript script) {
         this(script.getPath());
     }
 
-    public DetachableGroovyScript(final String path) {
+    public DetachableGroovyScriptModel(final String path) {
         if (path == null || path.length() == 0) {
             throw new IllegalArgumentException();
         }
@@ -71,8 +69,8 @@ public class DetachableGroovyScript extends LoadableDetachableModel{
             return true;
         } else if (obj == null) {
             return false;
-        } else if (obj instanceof DetachableGroovyScript) {
-            DetachableGroovyScript other = (DetachableGroovyScript) obj;
+        } else if (obj instanceof DetachableGroovyScriptModel) {
+            DetachableGroovyScriptModel other = (DetachableGroovyScriptModel) obj;
             return path.equals(other.path);
         }
         return false;

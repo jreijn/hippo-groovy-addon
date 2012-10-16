@@ -25,7 +25,7 @@ import org.hippoecm.frontend.plugins.standards.panelperspective.breadcrumb.Panel
 import org.onehippo.forge.cms.groovy.plugin.panels.GroovyShellPanel;
 
 /**
- * Groovy shell panel plugin
+ * Groovy shell panel plugin. Displays the panel for the scripting functionality in the perspective overview.
  * @author Jeroen Reijn
  */
 public class GroovyShellPanelPlugin extends GroovyPanelPlugin {
