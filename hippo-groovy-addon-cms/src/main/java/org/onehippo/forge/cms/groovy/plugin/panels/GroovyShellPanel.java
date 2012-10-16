@@ -105,13 +105,61 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
                 }
             }
         });
+
+        final List<GroovyScript> groovyScripts = getAvailableGroovyScriptsFromStore(groovyScriptsDataProvider);
+
+        addAvailableScriptsInDropdownToForm(form, groovyScripts);
+
+        // add a button that can be used to submit the form via ajax
+        form.add(new AjaxButton("ajax-button", form) {
+
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> currentForm) {
+
+                String scriptAsString = GroovyShellPanel.this.getScript();
+                Script groovyScript = shell.parse(scriptAsString);
+
+                if (Session.exists()) {
+                    UserSession userSession = (UserSession) Session.get();
+                    groovyScript.setProperty("session", userSession.getJcrSession());
+                    GroovyShellOutput shellOutput = compoundPropertyModel.getObject();
+                    groovyScript.setProperty("out", shellOutput);
+                }
+                try {
+                    groovyScript.run();
+                } catch (Exception e) {
+                    // catch the exception and make it visible for the end user instead of directing it to the log.
+                    output.println(e);
+                }
+                target.addComponent(shellFeedback);
+            }
+        });
+
+        form.setMultiPart(true);
+        fileUpload = new FileUploadField("fileUpload");
+        form.add(fileUpload);
+
+        form.setOutputMarkupId(true);
+        output.printVersion();
+        textArea = new CodeMirrorEditor("script", new Model(""));
+        textArea.setOutputMarkupId(true);
+        shellFeedback.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(5)));
+        form.add(shellFeedback);
+        form.add(textArea);
+        add(form);
+    }
+
+    private List<GroovyScript> getAvailableGroovyScriptsFromStore(final GroovyScriptsDataProvider groovyScriptsDataProvider) {
         final List<GroovyScript> groovyScripts = new ArrayList<GroovyScript>();
         Iterator iterator = groovyScriptsDataProvider.iterator(0, 10);
         while(iterator.hasNext()) {
             GroovyScript script = (GroovyScript) iterator.next();
             groovyScripts.add(script);
         }
+        return groovyScripts;
+    }
 
+    private void addAvailableScriptsInDropdownToForm(final Form form, final List<GroovyScript> groovyScripts) {
         final DropDownChoice<GroovyScript> scriptDropDownChoice = new DropDownChoice<GroovyScript>("scripts",
                 new PropertyModel<GroovyScript>(this, "selectedScript") , groovyScripts, new IChoiceRenderer() {
 
@@ -156,44 +204,6 @@ public class GroovyShellPanel extends PanelPluginBreadCrumbPanel {
             scriptDropDownChoice.setVisible(false);
             loadScript.setVisible(false);
         }
-
-        // add a button that can be used to submit the form via ajax
-        form.add(new AjaxButton("ajax-button", form) {
-
-            @Override
-            protected void onSubmit(AjaxRequestTarget target, Form<?> currentForm) {
-
-                String scriptAsString = GroovyShellPanel.this.getScript();
-                Script groovyScript = shell.parse(scriptAsString);
-
-                if (Session.exists()) {
-                    UserSession userSession = (UserSession) Session.get();
-                    groovyScript.setProperty("session", userSession.getJcrSession());
-                    GroovyShellOutput shellOutput = compoundPropertyModel.getObject();
-                    groovyScript.setProperty("out", shellOutput);
-                }
-                try {
-                    groovyScript.run();
-                } catch (Exception e) {
-                    // catch the exception and make it visible for the end user instead of directing it to the log.
-                    output.println(e);
-                }
-                target.addComponent(shellFeedback);
-            }
-        });
-
-        form.setMultiPart(true);
-        fileUpload = new FileUploadField("fileUpload");
-        form.add(fileUpload);
-
-        form.setOutputMarkupId(true);
-        output.printVersion();
-        textArea = new CodeMirrorEditor("script", new Model(""));
-        textArea.setOutputMarkupId(true);
-        shellFeedback.add(new AjaxSelfUpdatingTimerBehavior(Duration.seconds(5)));
-        form.add(shellFeedback);
-        form.add(textArea);
-        add(form);
     }
 
     private GroovyShell getMinimalSecuredGroovyShell() {
