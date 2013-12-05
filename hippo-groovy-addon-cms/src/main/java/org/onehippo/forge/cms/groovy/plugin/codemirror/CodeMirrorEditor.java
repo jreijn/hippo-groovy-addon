@@ -34,10 +34,10 @@ public class CodeMirrorEditor extends TextArea {
         super(id, iModel);
         setOutputMarkupId(true);
         markupId = getMarkupId();
-        add(JavascriptPackageResource.getHeaderContribution(CodeMirrorEditor.class, "lib/codemirror.js"));
-        add(CSSPackageResource.getHeaderContribution(CodeMirrorEditor.class, "lib/codemirror.css"));
-        add(CSSPackageResource.getHeaderContribution(CodeMirrorEditor.class, "theme/eclipse.css"));
-        add(JavascriptPackageResource.getHeaderContribution(CodeMirrorEditor.class, "mode/groovy/groovy.js"));
+        add(JavascriptPackageResource.getHeaderContribution(CodeMirrorEditor.class, "v3_20/lib/codemirror.js"));
+        add(CSSPackageResource.getHeaderContribution(CodeMirrorEditor.class, "v3_20/lib/codemirror.css"));
+        add(CSSPackageResource.getHeaderContribution(CodeMirrorEditor.class, "v3_20/theme/eclipse.css"));
+        add(JavascriptPackageResource.getHeaderContribution(CodeMirrorEditor.class, "v3_20/mode/groovy/groovy.js"));
 
         add(new AbstractBehavior() {
             @Override
