@@ -2,6 +2,8 @@ h1. This is the Hippo CMS Groovy addon project
 
 This project adds Groovy support to Hippo CMS (http://www.onehippo.org) projects.
 
+!https://travis-ci.org/jreijn/hippo-groovy-addon.png?branch=master!:https://travis-ci.org/jreijn/hippo-groovy-addon
+
 h2. What does it do?
 
 The Hippo CMS Groovy add-on provides an interface for running Groovy scripts from within the CMS interface.
